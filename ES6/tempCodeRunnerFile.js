@@ -1,1 +1,0 @@
-/ let {id,profile:{name,address:{city,zipcode}}}=users
