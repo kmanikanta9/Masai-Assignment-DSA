@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex navigation</title>
+</head>
+<style>
+    nav{
+        display: flex;
+        padding-left: 550px;
+        margin-top: 50px;
+    }
+    nav section{
+        padding-left: 50px;
+    }
+    #link1{
+        color: red;
+    }
+    #link2{
+        color: green;
+    }
+    #link3{
+        color: skyblue;
+    }
+    #link1:hover{
+        color: blue;
+    }
+    #link2:hover{
+        color: aqua;
+    }
+    #link3:hover{
+        color:violet;
+    }
+    #link1:active{
+        color: aqua;
+    }
+    #link2:active{
+        color: magenta;
+    }
+    #link3:active{
+        color: black;
+    }
+    a+p{
+        color: blue;
+    }
+</style>
+<body>
+    <nav>
+        <section>
+            <a id="link1" href="">Link 1</a>
+            <p>Paragraph 1</p>
+            <p>Paragraph 1.1</p>
+        </section>
+        <section>
+            <a id="link2" href="">Link 2</a>
+            <p>Paragraph 2</p>
+            <p>Paragraph 2.1</p>
+        </section>
+        <section>
+            <a id="link3" href="">Link 3</a>
+            <p>Paragraph 3</p>
+            <p>Paragraph 3.1</p>
+        </section>
+    </nav>
+</body>
+</html>

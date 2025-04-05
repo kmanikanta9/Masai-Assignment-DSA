@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Specificity Practice: Applying Priority in CSS</title>
+</head>
+<style>
+    #special{
+        border: 2px solid black;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+    }
+    .highlight{
+        border: 5px solid blue;
+        width: 100px;
+        height: 100px;
+        background-color: black;
+    }
+    
+    /* It's taking the id because the id specificity is 100 the class specificity is 10, so it's taking id. */
+</style>
+<body>
+    <div class="highlight" id="special"></div>
+</body>
+</html>

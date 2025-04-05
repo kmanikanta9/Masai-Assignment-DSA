@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    padding: 10px;
+    text-align: center;
+
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    background: lightblue;
+    border: 1px solid black;
+    margin: 20px;
+    position:relative;
+    box-sizing: border-box;
+}
+
+.text {
+    position: relative;
+    left: 50%;
+    top: 0;
+}
+h1{
+    text-align: center;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive list styling with combinators and pseduo classes</title>
+</head>
+<style>
+    ol li:nth-child(1){
+        font-weight: bold;
+        background-color: aqua;
+    }
+    li+li:nth-child(2){
+        background-color: red;
+    }
+    li~li:nth-child(3){
+        font-style: italic;
+    }
+    li:hover{
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <ol>
+        <li>List 1</li>
+        <li>List 2</li>
+        <li>List 3</li>
+        <li>List 4</li>
+        <li>List 5</li>
+    </ol>
+</body>
+</html>
