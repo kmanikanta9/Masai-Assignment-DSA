@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating layout from given design</title>
+</head>
+<style>
+    header{
+        display: flex;
+        width: 100%;
+    }
+    .continer{
+        border: 2px solid black;
+        display: flex;
+    }
+    img{
+        width: 200px;
+        height: 200px;
+    }
+    .box1{
+        margin-left: 50px;
+        margin-top: 50px;
+    }
+    .box11{
+        display: flex;
+        gap: 20px;
+        padding-left: 100px;
+    }
+    h1{
+        font-weight: bold;
+        padding-left: 100px;
+    }
+    span{
+        color:blue;
+        padding-left: 100px;
+    }
+    .inside{
+        display:flex;
+        gap: 200px;
+    }
+</style>
+<body>
+    <header>
+        <div class="container">
+            <div class="inside">
+            <div class="box1">
+                <h1>Revamp your home in style</h1>
+                <div class="box11">
+                    <div>
+                        <img src="./image1.jpeg" alt="image1">
+                        <p>Cushion covers, bedsheets & more</p>
+                    </div>
+                    <div>
+                        <img src="./image2.jpeg" alt="image2">
+                        <p>Figuriness, vasses & more</p>
+                    </div>
+                </div>
+                <div class="box11">
+                    <div>
+                        <img src="./image3.jpeg" alt="image3">
+                        <p>Home storage</p>
+                    </div>
+                    <div>
+                        <img style="padding-left: 15px;" src="./image4.jpeg" alt="image4">
+                        <p style="padding-left: 15px;">Lighting solutions</p>
+                    </div>
+                </div>
+                <span>Explore all</span>        
+            </div>
+            <div class="box1">
+                <h1>Starting 149 | Headphones</h1>
+                <div class="box11">
+                    <div>
+                        <img src="./image5.png" alt="image5">
+                        <p>Starting 249 | boAt</p>
+                    </div>
+                    <div>
+                        <img src="./image6.png" alt="image6">
+                        <p>Starting 349 | boult</p>
+                    </div>
+                </div>
+                <div class="box11">
+                    <div>
+                        <img src="./image7.png" alt="image7">
+                        <p>Starting 649 | Noise</p>
+                    </div>
+                    <div>
+                        <img src="./image8.png" alt="image8">
+                        <p>Starting 149 | Zebronics</p>
+                    </div>
+                </div>  
+                <span>Se all offers</span>         
+            </div>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

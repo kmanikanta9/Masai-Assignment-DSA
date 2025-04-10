@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploring flex directiont</title>
+</head>
+<style>
+    .container{
+        border: 2px solid black;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .container>div{
+        border: 2px solid aqua;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        width: 200px;
+    }
+</style>
+<body>
+    <div class="container">
+        <div>div 1</div>
+        <div>div 2</div>
+        <div>div 3</div>
+        <div>div 4</div>
+    </div>
+</body>
+</html>
