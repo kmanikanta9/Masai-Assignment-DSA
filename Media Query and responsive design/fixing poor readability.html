@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+            body>div>div{
+                
+                font-size: clamp(14px,6vw,16px);
+                line-height: 1.5;
+                border: 1px solid;
+                text-align: center;
+                background-color: rgb(174, 174, 233);
+                margin: 5%;
+        }
+        body>div{
+            margin: 10%;
+        }
+        @media(width >= 600px){
+            body>div{
+                font-size:16px ;
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                gap: 20px;
+                margin: 10%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div>
+            <h1>Heading 1</h1>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae quo ea vero repellat ducimus officia minima doloremque saepe aperiam. Possimus expedita excepturi magnam nam praesentium sit reprehenderit et molestiae asperiores?</p>
+        </div>
+        <div>
+            <h1>Heading 1</h1>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae quo ea vero repellat ducimus officia minima doloremque saepe aperiam. Possimus expedita excepturi magnam nam praesentium sit reprehenderit et molestiae asperiores?</p>
+
+        </div>
+        <div>
+            <h1>Heading 1</h1>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae quo ea vero repellat ducimus officia minima doloremque saepe aperiam. Possimus expedita excepturi magnam nam praesentium sit reprehenderit et molestiae asperiores?</p>
+
+        </div>
+        <div>
+            <h1>Heading 1</h1>
+           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae quo ea vero repellat ducimus officia minima doloremque saepe aperiam. Possimus expedita excepturi magnam nam praesentium sit reprehenderit et molestiae asperiores?</p>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #con>div{
+            border:1px solid;
+            width: 1fr;
+            height: 1fr;
+            background-color: rgb(135, 135, 241);
+            height: 200px;
+            margin: 10%;
+        }
+        @media (768px <= width < 1024px){
+            #con{
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                gap: 20px;
+            }
+            #con>div{
+                height: 100px;
+                background-color: rgb(135, 135, 241);
+            }
+        }
+        @media(width >=1024px){
+            #con{
+                display: grid;
+                grid-template-columns: repeat(3,1fr);
+                gap: 20px;
+            }
+            #con>div{
+                height: 100px;
+                background-color: rgb(135, 135, 241);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="con">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</body>
+</html>
