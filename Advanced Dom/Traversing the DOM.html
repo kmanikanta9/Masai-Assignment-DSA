@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traversing the DOM</title>
+</head>
+<body>
+    <div id="container">
+        <ul id="list">
+          <li id="item1">Item 1</li>
+          <li id="item2">Item 2</li>
+          <li id="item3">Item 3</li>
+        </ul>
+      </div>
+      
+      
+</body>
+</html>
+<script>
+    let click=document.getElementById("item2");
+    click.addEventListener("click",()=>{
+        let ul=document.getElementById("list");
+        let li=document.createElement("li");
+        li.innerHTML="alert"
+        ul.append(li)
+        let start=li
+        let previous=li.previousElementSibling;
+        while(previous){
+            console.log(previous)
+            previous=previous.previousElementSibling
+        }
+        // ul.insertBefore(li,ul.children[0])
+    })
+</script>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Propogation Exploration</title>
+</head>
+<style>
+    div#first{
+        width: 500px;
+        height: 500px;
+        background-color: yellow;
+        margin: auto;
+    }
+    div#second{
+        width: 250px;
+        height: 250px;
+        background-color: rgb(60, 0, 255);
+        margin: auto;
+    }
+    div#third{
+        width: 100px;
+        height: 100px;
+        background-color: rgb(0, 255, 26);
+        margin: auto;
+    }
+    button{
+        width: 60px;
+        height: 20px;
+        margin: 30px;
+    }
+    
+</style>
+<body>
+    <div id="first">
+        <button id="firstbtn">First</button>
+        <div id="second">
+            <button id="secondbtn">Second</button>
+            <div id="third">
+                <button id="thirdbtn">Third</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    let button1=document.getElementById("firstbtn");
+    button1.addEventListener("click",(event)=>{
+        event.stopPropagation()
+        alert("First one clicked")
+    })
+    let button2=document.getElementById("secondbtn");
+    button2.addEventListener("click",(event)=>{
+        event.stopPropagation()
+        alert("second one clicked")
+    })
+    let button3=document.getElementById("thirdbtn");
+    button3.addEventListener("click",(event)=>{
+        event.stopPropagation()
+        alert("third one clicked")
+    })
+    let div1=document.getElementById("first")
+    div1.addEventListener("click",(event)=>{
+        event.stopPropagation()
+        alert("fist-div clicked")
+    })
+    let div2=document.getElementById("second")
+    div2.addEventListener("click",(event)=>{
+        event.stopPropagation()
+        alert("second-div clicked")
+
+    })
+    let div3=document.getElementById("third")
+    div3.addEventListener("click",(event)=>{
+        event.stopPropagation()
+        alert("third-div clicked")
+
+    })
+
+</script>

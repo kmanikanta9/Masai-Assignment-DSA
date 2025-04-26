@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Task Manager with Event Delegation and Filtering</title>
+</head>
+
+
+<body>
+    <h1>Task Management</h1>
+    <input type="text" placeholder="Enter Task" id="add-input">
+    <button id="taskadd">Add Task</button>
+    <button id="all">All Tasks</button>
+    <button id="complete">Completed Tasks</button>
+    <button id="incomplete">Incomplete Tasks</button>
+
+    <ul id="list"></ul>
+    
+    
+</body>
+</html>
+<script>
+    let taskbutton=document.getElementById("taskadd");
+    let input=document.getElementById("add-input")
+    let tasks=[]
+    taskbutton.addEventListener("click",()=>{
+        let input1=input.value
+        if(input1!="" || input1!=" "){
+            let taskadd={task:input1,completed:false}
+            tasks.push(taskadd)
+            taskmange(tasks)
+            input.value=""
+        }  
+        
+    })
+    function taskmange(tasks){
+        list.innerHTML=""
+        tasks.map((task,index)=>{
+            let list=document.getElementById("list");
+            let li=document.createElement("li")
+            let input=document.getElementById("add-input")
+            li.innerHTML=`<span class="${task.completed ? 'completed' : ''}">${task.text}</span>
+                        <button onclick="completeTask(${index})">Complete</button>
+                        <button onclick="deleteTask(${index})">Delete</button>`
+            list.append(li)
+        })
+    }
+    function completeTask(index){
+        tasks[index].completed=!tasks[index].completed
+        taskmange(tasks)
+    }
+    function deleteTask(index){
+        tasks.splice(index,1)
+        taskmange(tasks)
+    }
+    let all=document.getElementById("all")
+    all.addEventListener("click",()=>{
+        taskmange(tasks)
+    })
+    let completetask=document.getElementById("complete");
+    completetask.addEventListener("click",()=>{
+        const completetasks=tasks.filter(task=>task.completed)
+        taskmange(completetasks)
+    })
+    let deletetask=document.getElementById("incomplete");
+        deletetask.addEventListener("click",()=>{
+        const deletetasks=tasks.filter(task=>!task.completed)
+        taskmange(deletetasks)
+    })
+    console.log(tasks)
+</script>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>creating and Deleting Element</title>
+</head>
+<body>
+    
+    <button id="btn1">Add Paragraph</button>
+    <button id="btn2">Remove Last Paragraph</button>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    let divs=document.getElementById("container");
+    let button1=document.getElementById("btn1");
+    button1.addEventListener("click",()=>{
+        let child=document.createElement("div");
+        child.innerText="This is new Paragraph";
+        divs.appendChild(child)
+        
+    })
+    let button2=document.getElementById("btn2");
+    button2.addEventListener("click",()=>{
+        (divs.removeChild(divs.lastChild))
+        
+    })
+</script>
