@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic TO-Do list</title>
+</head>
+<body>
+    <input type="text" placeholder="Add Task" id="input">
+    <button id="add-task">Add Task</button>
+    <ul id="ulmain"></ul>
+</body>
+</html>
+<script>
+    let button1=document.getElementById("add-task")
+    button1.addEventListener("click",()=>{
+        let ul=document.getElementById("ulmain");
+        let value=document.getElementById("input").value;
+        if(value==""|| value==" "){
+            alret("Invalid task name!")
+        }
+        else{
+            let li=document.createElement("li")
+            li.innerText=value
+            ul.append(li)
+            let buttondelete=document.createElement("button");
+            buttondelete.addEventListener("click",()=>{
+                li.remove()
+            })
+            buttondelete.style.width="15px"
+            buttondelete.style.height="15px"
+            buttondelete.style.backgroundColor="red"
+            li.append(buttondelete)
+            let btnForComplete = document.createElement("button")
+            btnForComplete.addEventListener("click",()=>{
+                console.log(li+" is completed")
+            })
+            btnForComplete.style.width="15px"
+            btnForComplete.style.height="15px"
+            btnForComplete.style.backgroundColor="green"
+            li.append(btnForComplete)  
+            ul.append(li)
+        }
+        
+    })
+    
+</script>

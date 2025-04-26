@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive DOM Manipulation</title>
+</head>
+<body>
+    <input id="input-1" type="text" placeholder="Enter a Color" oninput="changeText(event)">
+    <input id="input-2" type="text" placeholder="Enter Context">
+    <button id="btn-1">Change Background</button>
+    <button id="btn-2">Update Text</button>
+    <div id="div-input">User Input Display Here</div>
+</body>
+</html>
+<script>
+    let button1=document.getElementById("btn-1")
+    let button2=document.getElementById("btn-2")
+    let div=document.getElementById("div-input")
+    let input1=document.getElementById("input-1")
+    let input2=document.getElementById("input-2")
+    // function changeText(event){
+    //     color=event.target.value
+    //     div.style.backgroundColor=color
+    // }
+    
+    // button1.addEventListener("click",()=>{
+        
+    // })
+    // function changeText(event){
+    //     color=event.target.value
+    //     button1.addEventListener("click",()=>{
+    //         div.style.backgroundColor=color
+            
+    //     })
+    // }
+    button1.addEventListener("click",()=>{
+        let color=document.getElementById("input-1");
+        function isValidColor(color){
+            let s=new Option().style;
+            s.color=color;
+            return s.color!=="";
+        }
+        if(isValidColor(color.value)){
+            let div=document.getElementById("div-input")
+            div.style.backgroundColor=color.value;
+
+        }
+        else{
+            alert("Invalid color name")
+        }
+    })
+    button2.addEventListener("click",()=>{
+        let input2=document.getElementById("input-2").value;
+        if(input2==""){
+            alert("Please Enter some text!")
+        }
+        else{
+            div.textContent=input2
+        }
+    })
+</script>

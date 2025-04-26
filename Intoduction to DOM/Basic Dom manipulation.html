@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Dom manipulation</title>
+</head>
+<body>
+    <ul id="list">
+        <li>list 1</li>
+        <li>list 2</li>
+        <li>list 3</li>
+    </ul>
+    <button id="click-event" onclick="addItem()">Add Item</button>
+</body>
+</html>
+<script>
+    i=0
+    function addItem(){
+        let item=document.querySelector("#list")
+        let li=document.createElement("li");
+        li.innerText="New Item"
+        if(i%2==0){
+            li.style.color="red"
+            li.style.fontStyle="italic";
+            item.append(li)
+            i++
+            
+        }
+        else{
+            li.style.color="blue";
+            li.style.fontWeight="bold";
+            item.append(li)
+            i++
+        }
+        
+    }
+</script>

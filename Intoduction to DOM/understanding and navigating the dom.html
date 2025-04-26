@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1 id="first-h1">Heading 1</h1>
+    <p>para 1</p>
+    <p>para 2</p>
+    <p>para 3</p>
+    <div class="container">Division</div>
+</body>
+</html>
+<script>
+    let h1=document.getElementById('first-h1')
+    h1.textContent="Wwlcome to the DOM World!";
+    let para=document.getElementsByTagName("p");
+    for(let i=0;i<para.length;i++){
+        para[i].style.color="blue";
+    }
+    let divs=document.querySelector(".container");
+    divs.style.backgroundColor="yellow";
+
+</script>
