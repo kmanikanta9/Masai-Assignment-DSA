@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch and Display users</title>
+</head>
+<body>
+    <div id="maindiv"></div>
+    <ul id="list"></ul>
+</body>
+</html>
+<script>
+    let div=document.getElementById("maindiv");
+    let list=document.getElementById("list")
+    async function display(){
+        let res=await fetch("https://jsonplaceholder.typicode.com/users");
+        let response=await res.json()
+        console.log(response)
+        response.forEach((ele)=>{
+            console.log(ele.name)
+            // let li=document.createElement("li")
+            // li.onclick=`displ(${ele.email})`
+            // li.innerText=ele.name
+            list.innerHTML+=`<li onclick="displ('${ele.email}')">${ele.name}</li>`
+        })
+        console.log(list)
+
+    }
+    display()
+    function displ(email){
+        alert(email)
+    }
+    // async function click(){
+        // let res=await fetch("https://jsonplaceholder.typicode.com/users");
+        // let response=await res.json()
+        // let li=document.getElementById("id")
+        // list.addEventListener("click",()=>{
+        //     response.forEach((ele)=>{
+        //         if(li.innerText==ele.name){
+        //             console.log(ele.email)
+        //         }
+        //     })
+    // })
+
+    // }
+    // click()
+    
+</script>

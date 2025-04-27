@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create a New Post</title>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    async function display(){
+        try {
+            let res= await fetch("https://jsonplaceholder.typicode.com/posts")
+            let response= await res.json()
+            console.log(response)
+            response.forEach((ele)=>{
+                let div=document.getElementById("container")
+                let title=document.createElement("p")
+                title.innerText="Title:" + ele.title
+                console.log(title)
+                let id=document.createElement("p")
+                id.innerText="ID:" + ele.id
+                let body=document.createElement("p")
+                body.innerText="Body:" + ele.body
+                div.append(title)
+                div.append(body)
+                div.append(id)
+            })
+        } catch (error) {
+            
+        }
+    }
+    display()
+</script>

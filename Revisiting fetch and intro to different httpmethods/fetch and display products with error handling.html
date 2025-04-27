@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch and display products with error handling</title>
+</head>
+<style>
+    img{
+        width: 200px;
+        height: 200px;
+    }
+    div#container>div{
+        border: 2px solid black;
+        text-align: center;
+    }
+    div#container{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+    }
+</style>
+<body>
+    <div id="container"></div>
+    
+</body>
+</html>
+<script>
+    async function display(){
+        try {
+            let res= await fetch("https://fakestoreapi.com/products")
+            let response=await res.json()
+            console.log(response)
+            response.forEach((ele)=>{
+                let div=document.getElementById("container")
+                let div1=document.createElement("div")
+                div1.innerHTML+=`<p> ${ele.title}</p>
+                                <img src="${ele.image}" alt="">
+                                <p>${ele.price}</p>
+                                <button>View Details</button>`
+            div.append(div1)
+            })
+        } catch (error) {
+            console.log("Failed to fetch products")
+        }
+    }
+    display()
+</script>

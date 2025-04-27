@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and filter products with fetch</title>
+</head>
+<body>
+    <label for="">Search</label>
+    <input type="text" name="" id="search" placeholder="search">
+    <select name="" id="select">
+        <option value="">shirt</option>
+        <option value="">electronics</option>
+        <option value="">sort</option>
+    </select>
+</body>
+</html>
+<script>
+    async function display(){
+        try {
+            let res=await fetch("https://fakestoreapi.com/products")
+            let response=await res.json()
+            console.log(response)
+            response.forEach((ele)=>{
+                let select=document.getElementById("select").value
+                if(select=="shirt"){
+                    console.log(ele.category)
+                }
+            })
+            
+        } catch (error) {
+            
+        }
+    }
+    display()
+</script>
