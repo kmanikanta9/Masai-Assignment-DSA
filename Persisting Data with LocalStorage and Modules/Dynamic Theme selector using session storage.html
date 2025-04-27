@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Theme Selector using sessionStorage</title>
+</head>
+<style>
+    .Light {
+      background-color: white;
+      color: black;
+    }
+    .Dark {
+      background-color: black;
+      color: white;
+    }
+    .Blue {
+      background-color: #3498db;
+      color: white;
+    }
+  </style>
+<body>
+    <label for="">Theme:</label>
+    <select name="" id="select">
+        <option value="Light">Light</option>
+        <option value="Dark">Dark</option>
+        <option value="Blue">Blue</option>
+    </select>
+    <button id="apply">Apply Color</button>
+</body>
+</html>
+<script>
+    let select=document.getElementById("select");
+    let apply=document.getElementById("apply")
+    window.addEventListener("DOMContentLoaded",()=>{
+        let savedTheme=JSON.parse(sessionStorage.getItem("preferences"));
+        if(savedTheme){
+            select.value=savedTheme.theme
+            document.body.className = savedTheme.theme;
+        }
+    })
+    apply.addEventListener("click",()=>{
+        let preferences={theme:select.value}
+        sessionStorage.setItem("preferences",JSON.stringify(preferences))
+        document.body.className = preferences.theme;
+    })
+</script>

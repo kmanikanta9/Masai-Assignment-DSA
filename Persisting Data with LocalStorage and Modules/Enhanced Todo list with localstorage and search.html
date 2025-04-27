@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Todo list with localStorage and Search</title>
+</head>
+<body>
+    <input type="text" placeholder="Enter Task" id="input-task">
+    <input type="text" placeholder="Enter ID" id="input-id">
+    <button id="addtask">Add Task</button>
+    <ul id="list"></ul>
+</body>
+</html>
+<script>
+    let input=document.getElementById("input-task");
+    let id=document.getElementById("input-id");
+    let button=document.getElementById("addtask")
+    let tasks=[]
+    button.addEventListener("click",()=>{
+        let taskinput=input.value
+        let taskid=id.value
+        let add={id:taskid,task:taskinput,completed:false}
+        tasks.push(add)
+        localStorage.setItem("tasks",JSON.stringify(tasks))
+        displaydata()
+    })
+    function displaydata(){
+        let tasks=JSON.parse(localStorage.getItem("tasks"))
+        let list=document.getElementById("list");
+        list.innerHTML=""
+        tasks.map((task,index)=>{
+            let li=document.createElement("li")
+            li.innerHTML=`<p>${input.value}</span>
+                        <p>${id.value}</span>
+                        <button onclick="completeTask(${index})">Complete</button>
+                        <button onclick="deleteTask(${index})">Delete</button>`
+            list.append(li)
+        })
+    }
+    function completeTask(index){
+        let tasks=JSON.parse(localStorage.getItem("tasks"))
+        tasks[index].completed=!tasks[index].completed
+        displaydata()
+    }
+    function deleteTask(index){
+        let tasks=JSON.parse(localStorage.getItem("tasks"))
+        tasks.splice(index,1)
+        displaydata()
+    }
+</script>

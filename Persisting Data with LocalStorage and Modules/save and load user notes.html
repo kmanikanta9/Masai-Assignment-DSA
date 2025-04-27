@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save and load user notes</title>
+</head>
+<body>
+    <textarea name="" id="text" placeholder="Enter you text"></textarea>
+    <button id="load">Load Notes</button>
+    <button id="clear">Clear Notes</button>
+    <button id="add">Add Notes</button>
+</body>
+</html>
+<script>
+    let addnotes=document.getElementById("add");
+    let getnotes=document.getElementById("text")
+    addnotes.addEventListener("click",()=>{
+        let getnotes=document.getElementById("text")
+        let value=getnotes.value
+        localStorage.setItem("notes",JSON.stringify(value))
+        getnotes.value=""
+    })
+    
+
+    window.addEventListener("DOMContentLoaded",()=>{
+        let getNotes= JSON.parse(localStorage.getItem("notes"))
+        let visible=document.getElementById("text")
+        visible.value=getNotes
+    })
+
+    let loaded=document.getElementById("load");
+    loaded.addEventListener("click",()=>{
+        let getNotes= JSON.parse(localStorage.getItem("notes"))
+        let visible=document.getElementById("text")
+        visible.value=getNotes
+
+    })
+    let clearnotes=document.getElementById("clear");
+    clearnotes.addEventListener("click",()=>{
+        localStorage.removeItem("notes")
+    })
+    
+</script>

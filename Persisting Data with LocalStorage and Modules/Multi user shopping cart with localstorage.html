@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-User Shopping cart with localstorage</title>
+</head>
+<body>
+        <label for="">Enter User:</label>
+        <input type="text" placeholder="" id="user-input">
+        <input type="text" placeholder="Item Name" id="item-name">
+        <input type="text" placeholder="Price" id="price">
+        <input type="text" placeholder="Quantity" id="quantity">
+        <br>
+        <button id="user-submit">User Submit</button>
+        <select name="" id="select">
+            <option value="">Add Item</option>
+            <option value="">Edit quantity</option>
+            <option value="">Remove items</option>
+            <option value="">Display of total cost</option>
+        </select>
+        
+</body>
+</html>
+<script>
+    let submitbutton=document.getElementById("user-submit")
+    submitbutton.addEventListener("click",()=>{
+        let userinput=document.getElementById("user-input").value;
+        let iteminput=document.getElementById("item-name").value;
+        let priceinput=document.getElementById("price").value;
+        let quantityinput=document.getElementById("quantity").value;
+        let userdata=JSON.parse(localStorage.getItem(userinput)) || []
+        let data={itemName:iteminput,price:priceinput,qunatity:quantityinput,cost:quantityinput*priceinput}
+        userdata.push(data)
+        console.log(userdata)
+        localStorage.setItem(userinput,JSON.stringify(userdata))
+    })
+    let select=document.getElementById("select").value;
+
+    submitbutton.addEventListener("click",()=>{
+
+        let userinput=document.getElementById("user-input").value;
+            let iteminput=document.getElementById("item-name").value;
+            let priceinput=document.getElementById("price").value;
+            let quantityinput=document.getElementById("quantity").value;
+        if(select==="Add Item"){
+            let userdata=JSON.parse(localStorage.getItem(userinput)) || []
+            let data={itemName:iteminput,price:priceinput,quantity:quantityinput}
+            userdata.push(data)
+            console.log(userdata)
+            localStorage.setItem(userinput,JSON.stringify(userdata))
+        }
+        else if(select=="Edit quantity"){
+            let userdata=JSON.parse(localStorage.getItem(userinput))
+            localStorage.removeItem(userdata)
+            let quantitydata=userdata.map((ele)=>{
+                if(ele.itemName=="Laptop"){
+                    ele.qunatity=document.getElementById("quantity").value;
+                }
+                return ele
+            })
+            localStorage.setItem(userinput,JSON.stringify(quantitydata))
+        }
+        else if(select=="Remove items"){
+            let userdata=JSON.parse(localStorage.getItem(userinput))
+            let removeitem=userdata.find((ele)=>{
+                if(ele.itemName=="Laptop"){
+                    return
+                }
+                
+            })
+            userdata.splice(removeitem,1)
+            localStorage.setItem(userinput,JSON.stringify(userdata))
+        }
+        else if(select=="Display of total cost"){
+            let userdata=JSON.parse(localStorage.getItem(userinput))
+            let total=userdata.reduce((acc,cur)=>{
+                return acc+=cur.cost
+            },0)
+            console.log(total)
+        }
+    })
+</script>
