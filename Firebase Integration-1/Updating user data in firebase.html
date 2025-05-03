@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Updating user data in firebase</title>
+</head>
+<style>
+    
+</style>
+<body>
+    <input type="text" placeholder="Name" id="name">
+    <input type="email" placeholder="Email" id="email">
+    <button onclick="data()">Add user</button>
+    <div id="divlist"></div>
+    <table border="1" cellspacing="0" id="table">
+        <thead>
+            <th>Name</th>
+            <th>Email</th>
+        </thead>
+        
+    </table>
+    
+    
+</body>
+</html>
+<script>
+    
+    async function data(){
+        try {
+            let user={
+                name:document.getElementById("name").value,
+                email:document.getElementById("email").value
+            }
+            let res=await fetch("https://introduction-7aa23-default-rtdb.asia-southeast1.firebasedatabase.app/users.json",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(user)
+            })
+            let useraddress=await res.json()
+            console.log(useraddress)
+            console.log(" User Successfully added")
+        } catch (error) {
+            console.log("User was not added")
+        }
+
+    }
+    async function display(){
+          let res=await fetch("https://introduction-7aa23-default-rtdb.asia-southeast1.firebasedatabase.app/users.json");
+          let data=await res.json()
+          let displaydata=Object.entries(data).map(([id,user])=>({id,...user}))
+          console.log(displaydata)
+          let div=document.getElementById("table");
+          div.innerHTML=""
+          displaydata.forEach((user)=>{
+            let child=document.createElement("tbody")
+            child.innerHTML=`
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <button onclick="edituser('${user.id}','${user.name}','${user.email}')">Edit</button>`
+            
+            div.appendChild(child)
+          })
+          document.getElementById("name").value=""
+          document.getElementById("email").value=""
+    }
+    function edituser(id,name,email){
+        document.getElementById("name").value=name
+        document.getElementById("email").value=email
+
+    }
+    display()
+</script>
