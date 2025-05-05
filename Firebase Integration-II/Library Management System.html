@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+</head>
+<style>
+    body{
+        font-family: sans-serif;
+        text-align: center;
+        margin: 20px;
+        background-color: #f4f4f4;
+    }
+    input, button ,select{
+        margin: 5px;
+        padding: 8px;
+    }
+    #books-list{
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        gap: 20px;
+        justify-content: center;
+    }
+    .child-div{
+        background-color: white;
+        width: 200px;
+        padding: 15px;
+        border: 0.5px solid;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    button{
+        background-color: rgb(99, 236, 236);
+        border-radius: 5px;
+
+    }
+    .delete-btn{
+        background-color: rgb(204, 50, 50);
+    }
+    button:hover{
+        background-color: aquamarine;
+    }
+    .edit-btn{
+        background-color:rgb(74, 70, 180);
+    }
+    span{
+        font-weight: bold;
+    }
+</style>
+<body>
+    <label for="">Enter Book:</label>
+    <input type="text" id="book-id" readonly>
+    <input type="text" placeholder="Enter Id" id="book-Id">
+    <input type="text" placeholder="Enter Title" id="book-title">
+    <input type="text" placeholder="Enter Author" id="book-author">
+    <input type="text" placeholder="Enter genre" id="book-genre">
+    <input type="text" placeholder="Enter PublishYear" id="book-year">
+    <input type="text" placeholder="Available" id="book-available">
+    <button onclick="addBookOrUpdate()">Add Book</button>
+    <br>
+    
+    <br>
+    <label for="">Search: </label>
+    <input type="text" id="search-title" placeholder="Search Title">
+    <input type="number" id="search-year" placeholder="Search Year">
+    <input type="text" id="search-genre" placeholder="Search Genre">
+    <button onclick="filterAndSortBooks()">Filter</button>
+    <br>
+    <label for="">Sort Books: </label>
+    <select name="" id="sortBy" onchange="filterAndSortBooks()">
+        <option value="year-asc">Year-asc</option>
+        <option value="year-desc">Year-desc</option>
+    </select>
+    <br>
+    <label for="">Enter Member:</label>
+    <input type="text" placeholder="Enter Id" id="member-id">
+    <input type="text" placeholder="Enter Name" id="member-name">
+    <input type="date" placeholder="Member-Date" id="member-date">
+    <input type="text" placeholder="Active" id="member-active">
+    <button onclick="addBookOrUpdateMember()">Add Member</button>
+    <br>
+    <label for="">Search: </label>
+    <input type="text" id="member-title" placeholder="Search Title">
+    <input type="number" id="member-year" placeholder="Search Year">
+    <input type="text" id="member-genre" placeholder="Search Genre">
+    <button onclick="filterAndSortMember()">Filter</button>
+    <br>
+    <label for="">Sort Books: </label>
+    <select name="" id="sortBy" onchange="filterAndSortMember()">
+        <option value="year-asc">Year-asc</option>
+        <option value="year-desc">Year-desc</option>
+    </select>
+
+    <div id="books-list"></div>
+    <div id="members-list"></div>
+    
+
+</body>
+</html>
+<script>
+    let baseurlbooks="https://library-management-8cb8a-default-rtdb.asia-southeast1.firebasedatabase.app/books"
+    let baseurlmembers="https://library-management-8cb8a-default-rtdb.asia-southeast1.firebasedatabase.app/members"
+    async function fetchBooks(){
+        let res=await fetch(`${baseurlbooks}.json`)
+        let data=await res.json()
+        if(!data) return []
+        return Object.entries(data).map(([id,book])=>({id,...book}))
+    }
+    async function filterAndSortBooks(){
+        let books=await fetchBooks()
+        let selectedtitle=document.getElementById("search-title").value;
+        let selectedyear=document.getElementById("search-year").value;
+        let selectedgenre=document.getElementById("search-genre").value;
+        let sortBy=document.getElementById("sortBy").value;
+        let searched=books.filter((book)=>{
+            return (
+                (selectedtitle=="" || book.title==selectedtitle)&&
+                (selectedyear=="" || book.year==selectedyear) &&
+                (selectedgenre=="" || book.genre==selectedgenre)
+
+            )
+        })
+        searched.sort((a,b)=>{
+            let yearA=parseInt(a.year)
+            let yearB=parseInt(b.year)
+            if(sortBy=="year-asc") return yearA-yearB;
+            if(sortBy=="year-desc") return yearB-yearA;
+        })
+        displayBooks(searched)
+    }
+
+    async function displayBooks(books){
+        console.log(books)
+        let booksList=document.getElementById("books-list")
+        booksList.innerHTML=""
+        books.forEach((book)=>{
+            let bookCard=document.createElement("div");
+            bookCard.className="child-div"
+            bookCard.innerHTML=`
+            <p><span>Id: </span> ${book.Id}</p>
+            <p><span>Title: </span> ${book.title}</p>
+            <p><span>Author: </span> ${book.author}</p>
+            <p><span>Genre:</span> ${book.genre}</p>
+            <p><span>Year: </span> ${book.year}</p>
+            <p><span>Available: </span> ${book.available}</p>
+            <button class="delete-btn" onclick="deleteBook('${book.id}')">Delete</button>
+            <button classs="edit-btn"onclick="editBook('${book.id}','${book.Id}','${book.title}','${book.author}','${book.genre}','${book.year}','${book.available}',)">Edit</button>`
+            booksList.appendChild(bookCard)
+
+        })
+
+    }
+    async function deleteBook(bookId){
+        await fetch(`${baseurlbooks}/${bookId}.json`,{
+            method:"DELETE",
+        })
+        filterAndSortBooks()
+    }
+    function editBook(id,Id,title,author,genre,year,available){
+        document.getElementById("book-id").value=id
+        document.getElementById("book-Id").value=Id
+        document.getElementById("book-title").value=title
+        document.getElementById("book-author").value=author
+        document.getElementById("book-genre").value=genre
+        document.getElementById("book-year").value=year
+        document.getElementById("book-available").value=available
+    }
+    async function addBookOrUpdate(){
+        let bookID=document.getElementById("book-id").value;
+        let book={
+            Id:document.getElementById("book-Id").value,
+            title:document.getElementById("book-title").value,
+            author:document.getElementById("book-author").value,
+            genre:document.getElementById("book-genre").value,
+            year:document.getElementById("book-year").value,
+            available:document.getElementById("book-available").value,
+        }
+        if(bookID){
+            await fetch(`${baseurlbooks}/${bookID}.json`,{
+                method:"PATCH",
+                headers:{"Content-Type":'application/json'},
+                body:JSON.stringify(book)
+            })
+        }
+        else{
+            await fetch(`${baseurlbooks}.json`,{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(book)
+            })
+    
+        }
+        document.getElementById("book-id").value=""
+        document.getElementById("book-Id").value=""
+        document.getElementById("book-title").value=""
+        document.getElementById("book-author").value=""
+        document.getElementById("book-genre").value=""
+        document.getElementById("book-year").value=""
+        document.getElementById("book-available").value=""
+        filterAndSortBooks()
+    }
+    filterAndSortBooks()
+    // Members
+    async function fetchMembers(){
+        let res=await fetch(`${baseurlmembers}.json`)
+        let data=await res.json()
+        if(!data) return []
+        return Object.entries(data).map(([id,member])=>({id,...member}))
+    }
+    async function filterAndSortMember(){
+        let members=await fetchMembers()
+        let selectedname=document.getElementById("search-title").value;
+        let sortBy=document.getElementById("sortBy").value;
+
+        let searched=members.sort((a,b)=>{
+            let yearA=parseInt(a.year)
+            let yearB=parseInt(b.year)
+            if(sortBy=="year-asc") return yearA-yearB;
+            if(sortBy=="year-desc") return yearB-yearA;
+        })
+        displayMembers(searched)
+    }
+
+    async function displayMembers(members){
+        let membersList=document.getElementById("members-list")
+        membersList.innerHTML=""
+        members.forEach((member)=>{
+            let memberCard=document.createElement("div");
+            memberCard.className="child-div"
+            memberCard.innerHTML=`
+            <p><span>Id: </span> ${member.Id}</p>
+            <p><span>Name: </span> ${member.name}</p>
+            <p><span>MembershipDate: </span> ${member.membershipDate}</p>
+            <p><span>Active: </span> ${member.active}</p>
+            <button class="delete-btn" onclick="deleteMember('${member.id}')">Delete</button>
+            <button classs="edit-btn"onclick="editMember('${member.id}','${member.Id}','${member.name}','${member.membershipDate}','${member.active}')">Edit</button>`
+            membersList.appendChild(memberCard)
+
+        })
+
+    }
+    async function deleteMember(memberId){
+        await fetch(`${baseurlmembers}/${memberId}.json`,{
+            method:"DELETE",
+        })
+        filterAndSortMember()
+    }
+    function editMember(id,Id,name,membershipDate,active){
+        document.getElementById("member-id").value=id
+        document.getElementById("member-Id").value=Id
+        document.getElementById("member-name").value=name
+        document.getElementById("member-date").value=membershipDate
+        document.getElementById("member-active").value=active
+    }
+    async function addBookOrUpdateMember(){
+        let memberID=document.getElementById("member-id").value;
+        let member={
+            Id:document.getElementById("member-Id").value,
+            name:document.getElementById("member-name").value,
+            membershipDate:document.getElementById("member-date").value,
+            actie:document.getElementById("member-active").value,
+
+        }
+        if(memberID){
+            await fetch(`${baseurlmembers}/${memberID}.json`,{
+                method:"PATCH",
+                headers:{"Content-Type":'application/json'},
+                body:JSON.stringify(member)
+            })
+        }
+        else{
+            await fetch(`${baseurlmembers}.json`,{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(member)
+            })
+    
+        }
+        document.getElementById("member-id").value=""
+        document.getElementById("member-Id").value=""
+        document.getElementById("member-name").value=""
+        document.getElementById("member-date").value=""
+        document.getElementById("member-active").value=""
+
+        filterAndSortMember()
+    }
+    filterAndSortMember()
+
+
+ 
+</script>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple UI to display a list of novels using Firebase</title>
+</head>
+<style>
+    body{
+        font-family: sans-serif;
+        text-align: center;
+        margin: 20px;
+        background-color: #f4f4f4;
+    }
+    input, button ,select{
+        margin: 5px;
+        padding: 8px;
+    }
+    #divlist{
+        display: grid;
+        grid-template-columns: repeat(2,200px);
+        gap: 20px;
+        justify-content: center;
+    }
+    .child-div{
+        background-color: white;
+        padding: 15px;
+        border: 0.5px solid;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    button{
+        background-color: rgb(99, 236, 236);
+        border-radius: 5px;
+
+    }
+    .delete-btn{
+        background-color: rgb(204, 50, 50);
+    }
+    button:hover{
+        background-color: aquamarine;
+    }
+    .edit-btn{
+        background-color:rgb(74, 70, 180);
+    }
+
+</style>
+<body>
+    <input type="text" id="id" readonly>
+    <input type="text" id="title" placeholder="Enter Title">
+    <input type="text" id="author" placeholder="Enter Author">
+    <input type="number" id="price" placeholder="Enter Price">
+    <input type="number" id="year" placeholder="Enter Year">
+    <input type="text" id="genre" placeholder="Enter Genre">
+    <button onclick="addOrUpdateNovel()">Save Novel</button>
+    <br>
+    <select name="" id="sortBy">
+        <option value="year-asc">Asc(Year)</option>
+        <option value="year-desc">Desc(Year)</option>
+    </select>
+    <button onclick="filterAndsortYear()">Sort</button>
+    <br>
+    <input type="number" id="selectedYear">
+    <input type="text" name="" id="selectedgenre">
+    <button onclick="filterAndsortYear()">Filter</button>
+    <label for="">Search</label>
+    <input type="text" placeholder="Enter Title" id="search-title">
+    <input type="text" placeholder="Enter Author" id="search-author">
+    <button onclick="searchNovels()">Search</button>
+    <div id="divlist"></div>
+    
+</body>
+</html>
+<script>
+    let firebaseurl= "https://novel-dc920-default-rtdb.asia-southeast1.firebasedatabase.app/novels"
+    async function fetchNovels(){
+        let res=await fetch(`${firebaseurl}.json`)
+        let data=await res.json()
+        return Object.entries(data).map(([id,novel])=>({id,...novel}))
+    }
+    async function filterAndsortYear(){
+        
+        let noveldata=await fetchNovels()
+        let selectedYear=document.getElementById("selectedYear").value;
+        let selectedgenre=document.getElementById("selectedgenre").value;
+        let sortby=document.getElementById("sortBy").value;
+        let sorting=noveldata.filter((novel)=>{
+            return((selectedYear=="" || novel.release_year==selectedYear)&&
+                    (selectedgenre=="" || novel.genre==selectedgenre)
+                    // (searchtitle=="" || novel.title==searchtitle)||
+                    // (searchauthor=="" || novel.author==searchauthor)
+            )
+
+        })
+        sorting.sort((a,b)=>{
+            let yearA=parseInt(a.release_year)
+            let yearB=parseInt(b.release_year)
+            if(sortby=="year-asc") return yearA-yearB;
+            if(sortby=="year-desc") return yearB-yearA;
+        })
+        displayNovels(sorting)
+
+
+    }
+
+    async function searchNovels(){
+        let noveldata=await fetchNovels()
+        let searchtitle=document.getElementById("search-title").value;
+        let searchauthor=document.getElementById("search-author").value;
+        let searching=noveldata.filter((novel)=>{
+            return((searchtitle=="" || novel.title==searchtitle)&&
+                    (searchauthor=="" || novel.author==searchauthor)
+            )
+        })
+        displayNovels(searching)
+    }
+    async function displayNovels(noveldata){
+        // let res=await fetchNovels()
+        // res = await res.json()
+        let div=document.getElementById("divlist");
+        div.innerHTML=""
+        noveldata.forEach((novel)=>{
+            let childiv=document.createElement("div");
+            childiv.className="child-div"
+            childiv.innerHTML=`<p>Title: ${novel.title}</p>
+                                <p>Author: ${novel.author}</p>
+                                <p>Price: ${novel.price}</p>
+                                <p>Year: ${novel.release_year}</p>
+                                <p>Genre: ${novel.genre}</p>
+                                <button class="edit-btn" onclick="editNovel('${novel.id}','${novel.title}','${novel.author}','${novel.price}','${novel.release_year}','${novel.genre}')">Edit</buttton>
+                                 <button class="delete-btn" onclick="deleteNovel('${novel.id}')">Delete</button>   `
+                                div.appendChild(childiv)
+        })
+    }
+    async function deleteNovel(novelId){
+        await fetch(`${firebaseurl}/${novelId}.json`,{
+            method:"DELETE"
+        })
+        filterAndsortYear()
+    }
+    function editNovel(id,title,author,price,year,genre){
+        document.getElementById("id").value=id
+        document.getElementById("title").value=title
+        document.getElementById("author").value=author
+        document.getElementById("price").value=price
+        document.getElementById("year").value=year
+        document.getElementById("genre").value=genre
+    }
+    async function addOrUpdateNovel(){
+        let novelId=document.getElementById("id").value;
+        let novel={
+            title:document.getElementById("title").value,
+            author:document.getElementById("author").value,
+            price:document.getElementById("price").value,
+            release_year:document.getElementById("year").value,
+            genre:document.getElementById("genre").value,
+        }
+
+        if(novelId){
+            await fetch(`${firebaseurl}/${novelId}.json`,{
+                method:"PATCH",
+                headers:{"Content-Type":'application/json'},
+                body:JSON.stringify(novel)
+            })
+            document.getElementById("id").value=""
+        }
+        else{
+            await fetch(`${firebaseurl}.json`,{
+                method:"POST",
+                headers:{"Content-Type":'application/json'},
+                body:JSON.stringify(novel)
+            })
+        }
+        document.getElementById("title").value=""
+        document.getElementById("author").value=""
+        document.getElementById("price").value=""
+        document.getElementById("year").value=""
+        document.getElementById("genre").value=""
+        filterAndsortYear()
+        
+    }
+    filterAndsortYear()
+    
+  
+    // displayNovels()
+    // addOrUpdateNovel()
+</script>
