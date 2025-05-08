@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #imagelist{
+        margin-top: 100px;
+        margin-left: 500px;
+    }
+    button{
+        background-color: aqua;
+        padding: 10px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+<body>
+    <div id="imagelist">
+        <button id="image-insert">Image</button>
+        <div id="image"></div>
+
+    </div>
+    
+</body>
+</html>
+<script>
+    document.getElementById("image-insert").addEventListener("click",imageInserting)
+    let canClick=true
+    count=0
+    function imageInserting(){
+        count++
+        if(count==4){
+            alert("Chill chill, loading it!!...")
+        }
+        if(canClick){
+            let div=document.getElementById("image")
+            
+            div.innerHTML=`<img src="${"https://fastly.picsum.photos/id/229/600/400.jpg?hmac=BdfYBejjFrY-_rhFDfkzbPrUTZq2n4YgiZK14Tx9Pg4"}" alt="">`;
+            canClick=false
+            
+            setTimeout(()=>{
+                canClick=true
+                count=0
+                div.innerHTML=""
+            },3000)
+        }
+    }
+</script>

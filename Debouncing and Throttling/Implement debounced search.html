@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: aliceblue;
+        width: 80%;;
+    }
+    #divlist{
+        text-align: center;
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        width: 80%;
+        gap: 15px;
+        margin: auto;
+        margin-top: 100px;
+    }
+    #divlist>div{
+        text-align: center;
+        background-color: #f4f4f4;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+    img{
+        width: 250px;
+        height: 250px;
+
+    }
+    input,label{
+        padding: 6px;
+        border-radius: 4px;
+        margin-top: 50px;
+        text-align: center;
+        /* margin-left: 200px; */
+    }
+    #search-div{
+        margin: auto;
+        text-align: center;
+    }
+</style>
+<body>
+    <!-- <input type="text" id="search">
+    <button id="search-btn" onclick="searchMovie()">Search</button> -->
+    <!-- <button id="search-btn" onclick="fetchMovies()">Search</button> -->
+    <div id="search-div">
+         <label for="">Search Movie: </label>
+         <input type="text" id="searchInput" placeholder="Search Movie">
+
+     </div>
+    <div id="divlist"></div>
+    
+</body>
+</html>
+<script>
+    let Api_key ="3ad41b8e"
+    // async function fetchMovies(){
+    //     let res=await fetch(`https://www.omdbapi.com/?apikey=3ad41b8e&s=${query}`)
+    //     return data=await res.json()
+        
+    // }
+    let timer;
+    document.getElementById("searchInput").addEventListener("input",async function(event){
+        let res=await fetch(`https://www.omdbapi.com/?apikey=3ad41b8e&s=${event.target.value}`)
+        let data=await res.json()
+        // console.log(data)
+        clearTimeout(timer)
+        timer=setTimeout(()=>{
+            displayMovies(data)
+        },100)
+    })
+    function displayMovies(movies){
+        let div=document.getElementById("divlist");
+        div.innerHTML=""
+        movies.Search.forEach((movie)=>{
+            let child=document.createElement("div")
+            child.innerHTML=`
+            <img src="${movie.Poster}" alt="">
+            <p>${movie.Title} (${movie.Year})</p>`
+            div.append(child)
+        })
+
+    }
+    // let url=`https://www.omdbapi.com/?apikey=${Api_key}&s=${query}`
+    // let url1=`https://www.omdbapi.com/?apikey=${Api_key}`
+    
+    // async function searchMovie() {
+    //     let movies=await fetchMovies()
+    //     // let filtered=movies.Search.filter((movie)=>{
+    //     //     return ((search=="" || movie.Title==search))
+    //     // })
+    //     displayMovie(movies)
+    // }
+    // function displayMovie(movies){
+    //     console.log(movies)
+    // }
+
+</script>
