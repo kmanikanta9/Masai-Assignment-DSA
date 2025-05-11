@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard App</title>
+</head>
+<style>
+    .hidden{
+        display: none;
+    }
+    #divlist{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        text-align: center;
+        gap: 15px;
+        margin-top: 100px;
+        margin-left: 200px;
+
+    }
+    #divlist>div{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        background-color: #f4f4f4;
+        width: 250px;
+
+    }
+    img{
+        width: 250px;
+        height: 250px;
+    }
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin: 50px;
+    }
+    input{
+        display: block;
+        margin: 10px auto;
+        padding: 10px;
+        width: 250px;
+    }
+    button{
+        padding: 10px;
+        width: 150px;
+        cursor: pointer;
+    }
+    .hidden{
+        display: none;
+    }
+</style>
+<body>
+    <div id="container">
+        <div id="signup-container">
+            <h2>Sing up</h2>
+            <input type="text" placeholder="Enter Name" id="signup-name">
+            <input type="email" placeholder="Enter Email" id="signup-email">
+            <input type="password" placeholder="Enter Password" id="signup-password">
+            <!-- <select name="" id="role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select> -->
+            <button id="signup-btn">Register</button>
+            <p id="signup-message"></p>
+        </div>
+        <div id="login-container">
+            <h2>Login</h2>
+            <input type="email" placeholder="Enter Email" id="login-email">
+            <input type="password" placeholder="Enter Password" id="login-password">
+            <button id="login-btn">Login</button>
+            <p id="login-message"></p>
+        </div>
+        <div id="dashboard-container">
+            <p> <span id="welcome-message"></span> (<span id="user-name"></span>)</p>
+            <button id="logout-btn">Logout</button>
+        </div>
+        <div id="admin-container" class="hidden">
+            <p>Welcome the admin</p>
+        </div>
+    </div>
+    <div id="divlist"></div>
+    
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-analytics.js";
+        import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged
+
+        } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+        import { getFirestore,doc,setDoc,getDoc} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyCOISrZN7psqwVum4Po9YKHVQk-ZkeFq-8",
+          authDomain: "authentication-5d77d.firebaseapp.com",
+          projectId: "authentication-5d77d",
+          storageBucket: "authentication-5d77d.firebasestorage.app",
+          messagingSenderId: "284907019884",
+          appId: "1:284907019884:web:1f6d5bf3da76692be70249",
+          measurementId: "G-B6L957TP6Q"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth=getAuth(app);
+        const db=getFirestore(app);
+
+
+
+        document.getElementById("signup-btn").addEventListener("click",async()=>{
+            let email=document.getElementById("signup-email").value;
+            let name=document.getElementById("signup-name").value;
+            let password=document.getElementById("signup-password").value;
+            try {
+                let userCrenditails=await createUserWithEmailAndPassword(auth,email,password)
+                let user=userCrenditails.user
+                await setDoc(doc(db,"users",user.uid),{
+                    email:user.email,
+                    name:name
+                })
+                document.getElementById("signup-email").value=""
+                document.getElementById("signup-name").value=""
+                document.getElementById("signup-password").value=""
+                document.getElementById("signup-message").innerText="signup successfully"
+            } catch (error) {
+                document.getElementById("signup-message").innerText="signup problem"
+            }
+        })
+        document.getElementById("login-btn").addEventListener("click",async()=>{
+            let email=document.getElementById("login-email").value;
+            // let name=document.getElementById("login-name").value;
+            let password=document.getElementById("login-password").value;
+            try {
+                let userCrenditails=await signInWithEmailAndPassword(auth,email,password)
+                document.getElementById("login-message").innerText="login successfully"
+                document.getElementById("login-email").value=""
+                document.getElementById("login-password").value=""
+            } catch (error) {
+                document.getElementById("login-message").innerText="not login"
+            }
+        })
+        document.getElementById("logout-btn").addEventListener("click",async()=>{
+            await signOut(auth)
+            document.getElementById("divlist").style.display="none"
+            document.getElementById("login-message").innerText=""
+            document.getElementById("signup-message").innerText=""
+            alert("Logout successfully")
+
+            
+        })
+        onAuthStateChanged(auth,async(user)=>{
+            if(user){
+
+                document.getElementById("welcome-message").innerText=user.email;
+                
+                let userDoc= await getDoc(doc(db,"users",user.uid))
+                if(userDoc.exists()){
+                    let name=userDoc.data().name
+                    await fectchProducts()
+                    document.getElementById("user-name").innerText=name;
+                    document.getElementById("signup-container").classList.add("hidden")
+                    document.getElementById("login-container").classList.add("hidden")
+                    document.getElementById("dashboard-container").classList.remove("hidden")
+                    // document.getElementById("divlist").classList.remove("hidden")
+                    
+                }
+            }
+            else{
+
+                document.getElementById("signup-container").classList.remove("hidden")
+                document.getElementById("login-container").classList.remove("hidden")
+                document.getElementById("dashboard-container").classList.add("hidden")
+                document.getElementById("divlist").classList.add("hidden")
+            }
+        })
+        async function fectchProducts(){
+            let res=await fetch("https://fakestoreapi.com/products")
+            let data=await res.json()
+            let div=document.getElementById("divlist")
+            div.innerHTML=""
+            data.forEach((product)=>{
+                let child=document.createElement("div")
+                child.innerHTML=`
+                <img src="${product.image}" alt="">
+                <p>${product.title}</p>
+                <p>${product.price}</p>`
+                div.appendChild(child)
+            })
+
+        } 
+        
+
+
+        
+        // document.getElementById("signup-btn").addEventListener("click",()=>{
+        //     let email=document.getElementById("signup-email").value;
+        //     let password=document.getElementById("signup-password").value;
+        //     console.log(email,password)
+        //     createUserWithEmailAndPassword(auth,email,password)
+        //     .then((userCredentials)=>{
+        //         console.log(userCredentials)
+        //         document.getElementById("signup-message").innerText="Sign up successfully"
+        //     })
+        //     .catch((error)=>{
+        //         document.getElementById("signup-message").innerText="Not signup"
+        //     })
+            
+        // })
+        // document.getElementById("login-btn").addEventListener("click",()=>{
+        //     let email=document.getElementById("login-email").value;
+        //     let password=document.getElementById("login-password").value;
+        //     signInWithEmailAndPassword(auth,email,password)
+        //     .then(()=>{
+        //         document.getElementById("login-message").innerText="Login Successfully"
+        //     })
+        //     .catch(()=>{
+        //         document.getElementById("login-message").innerText="Not logged"
+        //     })
+        // })
+        // document.getElementById("logout-btn").addEventListener("click",()=>{
+        //     signOut(auth)
+        //     .then(()=>{
+        //         alert("Logout success")
+        //     })
+        //     .catch(()=>{
+        //         alert("Not Logout")
+        //     })
+        // })
+        // onAuthStateChanged(auth,(user)=>{
+        //     if(user){
+        //         document.getElementById("signup-container").classList.add("hidden")
+        //         document.getElementById("login-container").classList.add("hidden")
+        //         document.getElementById("dashboard-container").classList.remove("hidden")
+        //     }
+        //     else{
+
+        //         document.getElementById("signup-container").classList.remove("hidden")
+        //         document.getElementById("login-container").classList.remove("hidden")
+        //         document.getElementById("dashboard-container").classList.add("hidden")
+        //     }
+        // })
+      </script>
+</body>
+</html>
