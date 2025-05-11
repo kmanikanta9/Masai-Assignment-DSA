@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick and Morty</title>
+</head>
+<style>
+    body{
+        background-color: aliceblue;
+        width: 80%;;
+    }
+    #character-list{
+        text-align: center;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        width: 80%;
+        gap: 15px;
+        margin: auto;
+        margin-top: 100px;
+        margin-left: 250px;
+    }
+    #character-list>div{
+        text-align: center;
+        background-color: #f4f4f4;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+    img{
+        width: 250px;
+        height: 250px;
+
+    }
+    span{
+        font-weight: bold;
+    }
+    .dark{
+        background-color: #333;
+        color: white;
+    }
+    .light{
+        background-color: #fff;
+        color: black;
+    }
+</style>
+<body>
+    <select name="" id="select">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+    </select>
+    <button id="apply">Apply Theme</button>
+    <div id="character-list"></div>
+    
+    
+</body>
+</html>
+<script>
+    let select=document.getElementById("select");
+    let apply=document.getElementById("apply")
+    window.addEventListener("DOMContentLoaded",()=>{
+        let savedTheme=JSON.parse(localStorage.getItem("preferences"));
+        if(savedTheme){
+            select.value=savedTheme.theme
+            document.body.className = savedTheme.theme;
+        }
+    })
+    apply.addEventListener("click",()=>{
+        let preferences={theme:select.value}
+        localStorage.setItem("preferences",JSON.stringify(preferences))
+        document.body.className = preferences.theme;
+    })
+    async function fetchcharacter(){
+        let res=await fetch("https://rickandmortyapi.com/api/character")
+        let data=await res.json()
+        displaycharacter(data.results)
+        
+    }
+    
+    async function displaycharacter(char){
+        console.log(char)
+        // let character=await fetchcharacter()
+        let characterDiv=document.getElementById("character-list")
+        characterDiv.innerHTML=""
+        char.forEach((character)=>{
+            let childDiv=document.createElement("div")
+            childDiv.className="child-div"
+            childDiv.innerHTML=`<img src="${character.image}" alt="">
+                                <p><span>Name: </span>${character.name}</p>
+                                <p><span>Species: </span>${character.species}</p>
+                                <p><span>Status: </span>${character.status}</p>`
+                                characterDiv.append(childDiv)
+        })
+    }
+    fetchcharacter()
+    
+    
+</script>
