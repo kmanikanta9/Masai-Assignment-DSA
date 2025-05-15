@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA React</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<style>
+    body{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+    #box{
+        background-color: rgb(89, 153, 217);
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 100px;
+        
+    }
+    button{
+        padding: 7px;
+        background-color: brown;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin: 10px;
+        
+    }
+    h1{
+        text-align: center;
+    }
+
+</style>
+
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const{useState}=React;
+        function Change(){
+            const [page,setPage]=useState("Page")
+                return (
+                    <>
+                    <div id="box">
+                        <button onClick={()=>setPage("Welcome to Home")}>Home</button>
+                        <button onClick={()=>setPage(" About US")}>About Us</button>
+                        <button onClick={()=>setPage("Contact US")}>Contact Us</button>
+                        
+                    </div>
+                    <h1>{page}</h1>
+                    </>
+                )
+        }
+        function App(){
+            return (
+                <>
+                <Change/>
+                </>
+            )
+        }
+        let root=ReactDOM.createRoot(document.getElementById("root"))
+        root.render(<App/>)
+    </script>
+</body>
+</html>
