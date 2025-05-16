@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color changing</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<style>
+    #box{
+        font-family: 'Courier New', Courier, monospace;
+        background-color: aqua;
+
+    }
+    #root{
+        width: 100%;
+        height: 300px;
+        background-color: aliceblue;
+        text-align: center;
+
+    }
+    #first-1{
+        background-color: aquamarine;
+    }
+    #third{
+        background-color: bisque;
+    }
+</style>
+
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        function Card({title,children}){
+            return(
+                <>
+                <h1>Title: {title}</h1>
+                <p>Children: {children}</p>
+                </>
+            )
+        }
+        function App(){
+            return (
+                <>
+                <div id="box">
+                    <div id="first-1">
+                        <Card title="First-one" children="This is the first one children"/>
+                    </div>
+                    <Card title="Second-one" children="This is the second one children"/>
+                   
+                    <div id="third">
+                        <Card title="Third-one" children="This is the third one children"/>
+                    </div>
+                </div>
+                </>
+            )
+        }
+        let root=ReactDOM.createRoot(document.getElementById("root")).render(<App/>) 
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<style>
+ #first{
+    display: flex;
+    width: 80%;
+    margin-left: 200px;
+    margin-top: 50px;
+ }
+ span{
+    color: blueviolet;
+ }
+ #first>h1{
+    font-weight: bold;
+    margin-right: 200px;
+ }
+ #first>p{
+    margin-top: 35px;
+ }
+ #second{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 100px;
+ }
+ button{
+    background-color: #cad5e0;
+    color: blueviolet;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+ }
+ #second h1{
+    font-weight: bold;
+ }
+ #second h3{
+    font-weight: bold;
+    font-size: 25px;
+ }
+</style>
+
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        function Display(){
+            return(
+                <> 
+                <div id="first">
+                    <h1>The Right Plan for       
+                        <span> Your Business</span>
+                    </h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi unde delectus porro quia fugiat modi earum blanditiis. Totam alias dicta obcaecati a, velit inventore ea, architecto placeat eius incidunt ut.</p>
+                </div>
+                </>
+            )
+        }
+        function Components({title,lists,amount}){
+            return (
+                <>
+                <div id="second">
+                    <h3>{title}</h3>
+                    <ul>
+                        {lists.map((ele,index)=>(
+                            <li key={index}>✅{ele}</li>
+                            
+                        ))}
+                    </ul>
+                    <h1>{amount}</h1>
+                    <button>Get Started</button>
+                </div>
+                </>
+            )
+        }
+        function App(){
+           let list=["1 lorem ipsum","Lorem, ipsum dolor.","Monthly Updates"]
+            return (
+                <>
+                <Display/>
+                <Components title="Starter"   lists={list} amount="Free" />
+                <Components title="Lorem Plus" lists={list} amount="$32.00" />
+                <Components title="Lorem Pro" lists={list} amount="$50.00" />
+            
+                </>
+            )
+        }
+        let root=ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+    </script>
+
+</body>
+</html>

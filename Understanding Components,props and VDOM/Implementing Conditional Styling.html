@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color changing</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<style>
+    button{
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+</style>
+
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const {useState}=React;
+
+        function Button(){
+            const [color,setColor]=useState("Green")
+            document.body.style.backgroundColor=color
+            function Changing(){
+                let newColor = color==="Green"?"Yellow":"Green" ;
+                setColor(newColor)
+                document.body.style.backgroundColor={color}
+                
+                
+            }
+            let styled={backgroundColor:"aqua"}
+            // return <button onClick={Changing} style={styled}>Color: {color}</button>
+            return (
+                <>
+                <button onClick={Changing}  style={styled}>Color : {color}</button>
+                </>
+            )
+        }
+        function App(){
+            return <Button/>
+        }
+        let root=ReactDOM.createRoot(document.getElementById("root"))
+        root.render(<App/>)
+    </script>
+
+</body>
+</html>

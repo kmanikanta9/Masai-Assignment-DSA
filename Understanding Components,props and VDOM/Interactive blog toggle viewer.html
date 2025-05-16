@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Blog Toggle Viewer</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const {useState}=React;
+        function Blog({blog}){
+            const [current,setBlog]=useState(current)
+                return (
+                    <>
+                    <div>
+                        {blog.map((ele,index)=>(
+                            <p key={index} onClick={()=>setBlog(ele.content)}>{ele.title}</p>
+                            
+                        ))}
+                    </div>
+                    <h1>{current}</h1>
+
+                    </>
+                )
+        }
+
+        function App(){
+            const blogs = [
+                                { title: "Mastering JavaScript", content: "JavaScript is a powerful language for web development." },
+                                { title: "React in Indian Startups", content: "React is widely used in many Indian tech companies." },
+                                { title: "Career in Web Development", content: "Explore job roles and growth in web development." },
+                                ];
+            return(
+                <>
+                <Blog blog={blogs}/>
+                </>
+            )
+        }
+        let root=ReactDOM.createRoot(document.getElementById("root"))
+        root.render(<App/>)
+    </script>
+
+</body>
+</html>
