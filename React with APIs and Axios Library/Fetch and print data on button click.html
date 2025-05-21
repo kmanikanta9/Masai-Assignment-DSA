@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic React with API</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
+<script type="text/babel">
+    let {useState} = React;
+    function App(){
+        let [movies,setMovies] = useState([])
+        let [movieName,setMovieName] = useState("")
+        async function fetchMovies(){
+            let res = await fetch("https://reactmovie-4298e-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json")
+            res = await res.json()
+            let moviesArray = Object.entries(res).map(([id,movie])=>({id,...movie}))
+            setMovies(moviesArray)
+        }
+        async function addMovie(){
+            if(!movieName) return alert("Please enter a movie")
+            try {
+                await fetch("https://reactmovie-4298e-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json",{
+                    method:"POST" ,
+                    headers:{"content-type":"application/json"} ,
+                    body : JSON.stringify({title:movieName})
+                })
+                setMovieName("")
+            } catch (error) {
+                alert(error)
+            }
+        }
+        return (
+            <>
+                <h1>Fetch React Example</h1>
+                <button onClick={fetchMovies}>Fetch Data</button>
+                <input type="text" value={movieName} onChange={(e)=>setMovieName(e.target.value)} placeholder="Enter a Movie Name"/>
+                <button onClick={addMovie}>Add Movie</button>
+                <ul>
+                    {movies.map((movie,index)=>(
+                        <li key={index}>Title : {movie.title}</li>
+                    ))}
+                </ul>
+            </>
+
+        )
+    }
+    
+
+    let root = ReactDOM.createRoot(document.getElementById("root"))
+    root.render(<App/>)
+</script>
